@@ -1,26 +1,76 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateBrendDto } from './dto/create-brend.dto';
 import { UpdateBrendDto } from './dto/update-brend.dto';
+import { IBrendService } from './interfaces/brend.service';
+import { IBrendRepository } from './interfaces/brend.repository';
+import { ResponseData } from 'src/lib/response-data';
+import { Brend } from './entities/brend.entity';
+import { BrendAlreadyExist, BrendNotFound } from './exception/brend.exception';
 
 @Injectable()
-export class BrendService {
-  create(createBrendDto: CreateBrendDto) {
-    return 'This action adds a new brend';
+export class BrendService implements IBrendService {
+  constructor(
+    @Inject('IBrendRepository')
+    private readonly brendRepository: IBrendRepository,
+  ) {}
+
+  // CREATE
+  async create(createBrendDto: CreateBrendDto): Promise<ResponseData<Brend>> {
+    const foundBrendByName = await this._findByName(createBrendDto.name);
+    if (foundBrendByName) {
+      throw new BrendAlreadyExist();
+    }
+
+    const newBrend = new Brend();
+    newBrend.name = createBrendDto.name;
+
+    const createdBrend = await this.brendRepository.create(newBrend);
+
+    return new ResponseData<Brend>('create', 201, createdBrend);
   }
 
-  findAll() {
-    return `This action returns all brend`;
+  // READ
+  async findAll(): Promise<ResponseData<Brend[]>> {
+    const brends = await this.brendRepository.findAll();
+    return new ResponseData<Brend[]>('get all', 200, brends);
+  }
+  async findOne(id: number): Promise<ResponseData<Brend>> {
+    const brend = await this.brendRepository.findById(id);
+    if (!brend) {
+      throw new BrendNotFound();
+    }
+
+    return new ResponseData<Brend>('get one', 200, brend);
+  }
+  async _findByName(name: string): Promise<Brend> {
+    return await this.brendRepository.findByName(name);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brend`;
+  // UPDATE
+  async update(
+    id: number,
+    updateBrendDto: UpdateBrendDto,
+  ): Promise<ResponseData<Brend>> {
+    const foundBrendByName = await this._findByName(updateBrendDto.name);
+    const { data: foundBrend } = await this.findOne(id);
+
+    if (foundBrendByName && foundBrend.id !== foundBrendByName.id) {
+      throw new BrendAlreadyExist();
+    }
+
+    foundBrend.name = updateBrendDto.name;
+
+    const updatedBrend = await this.brendRepository.update(foundBrend);
+
+    return new ResponseData<Brend>('update', 200, updatedBrend);
   }
 
-  update(id: number, updateBrendDto: UpdateBrendDto) {
-    return `This action updates a #${id} brend`;
-  }
+  // DELETE
+  async remove(id: number): Promise<ResponseData<Brend>> {
+    await this.findOne(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} brend`;
+    const deletedBrend = await this.brendRepository.remove(id);
+
+    return new ResponseData<Brend>('delete', 200, deletedBrend);
   }
 }
