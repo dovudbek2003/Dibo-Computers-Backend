@@ -13,7 +13,7 @@ export class ProductDetail extends BaseEntity {
     type: 'varchar',
     nullable: false,
   })
-  protsessor: string;
+  processor: string;
 
   @Column({
     type: 'int',
@@ -43,7 +43,7 @@ export class ProductDetail extends BaseEntity {
     type: 'numeric',
     nullable: true,
   })
-  kg: number;
+  weight: number;
 
   @Column({
     type: 'int',

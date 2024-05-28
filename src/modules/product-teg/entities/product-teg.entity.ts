@@ -11,7 +11,7 @@ export class ProductTeg extends BaseEntity {
   @PrimaryColumn({ name: 'teg_id' })
   tegId: number;
 
-  @ManyToOne(() => Product, (product) => product.tegs, {
+  @ManyToOne(() => Product, (product) => product.tags, {
     onDelete: 'SET NULL',
     onUpdate: 'NO ACTION',
   })
@@ -22,6 +22,6 @@ export class ProductTeg extends BaseEntity {
     onDelete: 'SET NULL',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'teg_id', referencedColumnName: 'id' }])
+  @JoinColumn([{ name: 'tag_id', referencedColumnName: 'id' }])
   tegs: Array<Teg>;
 }

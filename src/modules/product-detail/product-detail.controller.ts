@@ -1,13 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductDetailService } from './product-detail.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  Inject,
+} from '@nestjs/common';
 import { CreateProductDetailDto } from './dto/create-product-detail.dto';
 import { UpdateProductDetailDto } from './dto/update-product-detail.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IProductDetailService } from './interfaces/product-detail.service';
 
 @ApiTags('Product Detail')
 @Controller('product-detail')
 export class ProductDetailController {
-  constructor(private readonly productDetailService: ProductDetailService) {}
+  constructor(
+    @Inject('IProductDetailService')
+    private readonly productDetailService: IProductDetailService,
+  ) {}
 
   @Post()
   create(@Body() createProductDetailDto: CreateProductDetailDto) {
@@ -23,9 +36,16 @@ export class ProductDetailController {
   findOne(@Param('id') id: string) {
     return this.productDetailService.findOne(+id);
   }
+  @Get('/query')
+  findByQuery(@Query('search') search: string) {
+    return this.productDetailService.findByQuery(search);
+  }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDetailDto: UpdateProductDetailDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDetailDto: UpdateProductDetailDto,
+  ) {
     return this.productDetailService.update(+id, updateProductDetailDto);
   }
 

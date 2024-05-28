@@ -39,15 +39,15 @@ export class Product extends BaseEntity {
     onUpdate: 'NO ACTION',
   })
   @JoinTable({
-    name: 'product_tegs',
+    name: 'product_tags',
     joinColumn: {
       name: 'product_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'teg_id',
+      name: 'tag_id',
       referencedColumnName: 'id',
     },
   })
-  tegs?: Array<Teg>;
+  tags?: Array<Teg>;
 }
