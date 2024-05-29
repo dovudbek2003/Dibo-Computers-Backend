@@ -9,11 +9,16 @@ import {
   Put,
   HttpStatus,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateBrendDto } from './dto/create-brend.dto';
 import { UpdateBrendDto } from './dto/update-brend.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IBrendService } from './interfaces/brend.service';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { RolesGuard } from '../shared/guards/roles.guard';
+import { Roles } from 'src/common/decorator/role.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 @ApiTags('Brend')
 @Controller('brend')
@@ -23,6 +28,9 @@ export class BrendController {
   ) {}
 
   // CREATE
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async create(@Body() createBrendDto: CreateBrendDto) {
@@ -43,6 +51,9 @@ export class BrendController {
   }
 
   // UPDATE
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   async update(
@@ -53,6 +64,9 @@ export class BrendController {
   }
 
   // DELETE
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
   async remove(@Param('id') id: string) {

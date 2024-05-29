@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { isMatch } from 'src/lib/bcrypt';
+import { IUserService } from '../user/interfaces/user.service';
+import { LoginOrPasswordWrong } from './exceptions/auth.exception';
+import { JwtService } from '@nestjs/jwt';
+import { ResponseData } from 'src/lib/response-data';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(
+    @Inject('IUserService') private readonly userService: IUserService,
+    private jwtService: JwtService,
+  ) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(createAuthDto: CreateAuthDto) {
+    const foundUserByLogin = await this.userService.findByLogin(
+      createAuthDto.login,
+    );
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (!foundUserByLogin) {
+      throw new LoginOrPasswordWrong();
+    }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    if (!isMatch(createAuthDto.password, foundUserByLogin.password)) {
+      throw new LoginOrPasswordWrong();
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const token = await this.jwtService.signAsync({ id: foundUserByLogin.id });
+
+    return new ResponseData('success', 200, {
+      user: foundUserByLogin,
+      token,
+    });
   }
 }

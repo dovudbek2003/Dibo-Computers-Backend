@@ -11,4 +11,6 @@ export const config: IConfig = {
   dbHost: process.env.DB_HOST,
   dbPassword: process.env.DB_PASSWORD,
   dbUsername: process.env.DB_USERNAME,
+  jwtSecretKey: process.env.JWT_SECRET_KEY,
+  jwtExpiredIn: process.env.JWT_EXPIRED_IN,
 };

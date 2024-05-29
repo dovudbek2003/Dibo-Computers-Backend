@@ -5,4 +5,6 @@ export interface IConfig {
   dbHost: string;
   dbPassword: string;
   dbUsername: string;
+  jwtSecretKey: string;
+  jwtExpiredIn: string;
 }
