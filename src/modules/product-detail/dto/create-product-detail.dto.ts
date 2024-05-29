@@ -39,5 +39,24 @@ export class CreateProductDetailDto {
     type: Number,
   })
   @IsInt()
+  ram: number;
+
+  @ApiProperty({
+    type: Number,
+  })
+  @IsInt()
+  hdd: number;
+
+  @ApiProperty({
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsString()
+  displey: string;
+
+  @ApiProperty({
+    type: Number,
+  })
+  @IsInt()
   price: number;
 }

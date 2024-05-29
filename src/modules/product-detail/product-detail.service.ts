@@ -40,13 +40,13 @@ export class ProductDetailService implements IProductDetailService {
     query: string,
   ): Promise<ResponseData<Array<ProductDetail>>> {
     // console.log(query);
-    // const allTasks = await this.productDetailRepository.findByQuery(query);
-    const allProductDetails = await this.productDetailRepository.findAll();
-    const data = allProductDetails.filter((task) => task.model.includes(query));
+    const data = await this.productDetailRepository.findByQuery(query);
+    // const allProductDetails = await this.productDetailRepository.findAll();
+    // const data = allProductDetails.filter((task) => task.model.includes(query));
     if (data) {
       return new ResponseData<Array<ProductDetail>>('ok', 200, data);
     }
-    return new ResponseData<Array<ProductDetail>>('ok', 200, allProductDetails);
+    return new ResponseData<Array<ProductDetail>>('ok', 200, data);
   }
 
   async findOne(id: number): Promise<ResponseData<ProductDetail>> {

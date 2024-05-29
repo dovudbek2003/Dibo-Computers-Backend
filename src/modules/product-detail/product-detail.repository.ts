@@ -25,11 +25,11 @@ export class ProductDetailRepository implements IProductDetailRepository {
   }
 
   async findByQuery(query: string): Promise<Array<ProductDetail>> {
-    // return await this.productRepository.find({ where: { name: query + '%' } });
-    return this.productRepository
-      .createQueryBuilder()
-      .where('products.name ILIKE :letter', { letter: `${query}%` })
-      .getMany();
+    return await this.productRepository.find({ where: { model: query + '%' } });
+    // return this.productRepository
+    //   .createQueryBuilder()
+    //   .where('products.name ILIKE :letter', { letter: `${query}%` })
+    //   .getMany();
   }
   async update(entity: ProductDetail): Promise<ProductDetail> {
     return await this.productRepository.save(entity);

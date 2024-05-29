@@ -14,11 +14,5 @@ export class CreateProductDto {
   })
   @IsInt()
   @IsNotEmpty()
-  brabdId: number;
-
-  @ApiProperty({
-    type: Array,
-  })
-  @IsNotEmpty()
-  tags: Array<string>;
+  brendId: number;
 }
