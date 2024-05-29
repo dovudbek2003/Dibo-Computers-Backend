@@ -12,22 +12,30 @@ export class TagRepository implements ITagRepository {
     @InjectRepository(Tag)
     private tagRepository: Repository<Tag>,
   ) {}
-  create(CreateTagDto: Partial<Tag>): Promise<Tag> {
-    throw new Error('Method not implemented.');
+  create(entity: Partial<Tag>): Promise<Tag> {
+    return this.tagRepository.save(entity);
   }
-  createEntity(dto: CreateTagDto | UpdateTagDto): Promise<Partial<Tag>> {
-    throw new Error('Method not implemented.');
+  async createEntity(dto: CreateTagDto | UpdateTagDto): Promise<Partial<Tag>> {
+    return this.tagRepository.create(dto);
   }
-  findAll(): Promise<Tag[]> {
-    throw new Error('Method not implemented.');
+
+  async findAll(): Promise<Tag[]> {
+    return await this.tagRepository.find();
   }
-  findOne(id: number): Promise<Tag> {
-    throw new Error('Method not implemented.');
+
+  async findOne(id: number): Promise<Tag> {
+    return await this.tagRepository.findOneBy({ id });
   }
-  update(id: number, UpdateTagDto: Partial<Tag>): Promise<Tag> {
-    throw new Error('Method not implemented.');
+
+  async findOneByName(name: string): Promise<Tag> {
+    return await this.tagRepository.findOneBy({ name });
   }
-  remove(id: number): Promise<Tag> {
-    throw new Error('Method not implemented.');
+
+  async update(UpdateTagDto: Partial<Tag>): Promise<Tag> {
+    return await this.tagRepository.save(UpdateTagDto);
+  }
+
+  async remove(entity: Tag): Promise<void> {
+    await this.tagRepository.delete(entity.id);
   }
 }
