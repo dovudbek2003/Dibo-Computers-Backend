@@ -8,37 +8,37 @@ import { Repository } from 'typeorm';
 export class ProductDetailRepository implements IProductDetailRepository {
   constructor(
     @InjectRepository(ProductDetail)
-    private productRepository: Repository<ProductDetail>,
+    private productDetailRepository: Repository<ProductDetail>,
   ) {}
 
   async delete(entity: ProductDetail): Promise<ProductDetail> {
-    return await this.productRepository.remove(entity);
+    return await this.productDetailRepository.remove(entity);
   }
 
   async create(entity: ProductDetail): Promise<ProductDetail> {
-    const newProductDetail = this.productRepository.create(entity);
-    await this.productRepository.save(newProductDetail);
+    const newProductDetail = this.productDetailRepository.create(entity);
+    await this.productDetailRepository.save(newProductDetail);
     return newProductDetail;
   }
   async findAll(): Promise<Array<ProductDetail>> {
-    return await this.productRepository.find();
+    return await this.productDetailRepository.find();
   }
 
   async findByQuery(query: string): Promise<Array<ProductDetail>> {
-    return await this.productRepository.find({ where: { model: query + '%' } });
-    // return this.productRepository
-    //   .createQueryBuilder()
-    //   .where('products.name ILIKE :letter', { letter: `${query}%` })
-    //   .getMany();
+    // return await this.productDetailRepository.find({ where: { model: query + '%' } });
+    return this.productDetailRepository
+      .createQueryBuilder('product_details')
+      .where('product_details.model ILIKE :letter', { letter: `${query}%` })
+      .getMany();
   }
   async update(entity: ProductDetail): Promise<ProductDetail> {
-    return await this.productRepository.save(entity);
+    return await this.productDetailRepository.save(entity);
   }
 
   async findById(id: number): Promise<ProductDetail | null> {
-    return await this.productRepository.findOneBy({ id });
+    return await this.productDetailRepository.findOneBy({ id });
   }
   // async findOneByName(name: string): Promise<ProductDetail | null> {
-  //   return await this.productRepository.findOneBy({ name });
+  //   return await this.productDetailRepository.findOneBy({ name });
   // }
 }

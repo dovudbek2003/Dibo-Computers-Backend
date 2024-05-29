@@ -5,6 +5,7 @@ import { CreateProductDetailDto } from './dto/create-product-detail.dto';
 import { ProductDetail } from './entities/product-detail.entity';
 import { ResponseData } from 'src/lib/response-data';
 import { UpdateProductDetailDto } from './dto/update-product-detail.dto';
+import { ProductDetailNotFoundException } from './exception/product-detail.exception';
 
 @Injectable()
 export class ProductDetailService implements IProductDetailService {
@@ -39,12 +40,13 @@ export class ProductDetailService implements IProductDetailService {
   async findByQuery(
     query: string,
   ): Promise<ResponseData<Array<ProductDetail>>> {
-    // console.log(query);
     const data = await this.productDetailRepository.findByQuery(query);
+    console.log(query);
+    console.log(data);
     // const allProductDetails = await this.productDetailRepository.findAll();
     // const data = allProductDetails.filter((task) => task.model.includes(query));
-    if (data) {
-      return new ResponseData<Array<ProductDetail>>('ok', 200, data);
+    if (!data) {
+      throw new ProductDetailNotFoundException();
     }
     return new ResponseData<Array<ProductDetail>>('ok', 200, data);
   }

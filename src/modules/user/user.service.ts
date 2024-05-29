@@ -1,4 +1,4 @@
-import { Inject, Injectable, Res } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from './interfaces/user.repository';
 import { User } from './entities/user.entity';
 import { ResponseData } from 'src/lib/response-data';

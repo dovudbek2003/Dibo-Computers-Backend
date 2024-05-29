@@ -28,17 +28,16 @@ export class ProductDetailController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('search') search: string) {
+    if (search) {
+      return this.productDetailService.findByQuery(search);
+    }
     return this.productDetailService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productDetailService.findOne(+id);
-  }
-  @Get('/query')
-  findByQuery(@Query('search') search: string) {
-    return this.productDetailService.findByQuery(search);
   }
 
   @Patch(':id')
