@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/lib/base-entity';
 import { Brend } from 'src/modules/brend/entities/brend.entity';
 import { ProductDetail } from 'src/modules/product-detail/entities/product-detail.entity';
-import { Teg } from 'src/modules/teg/entities/teg.entity';
+import { Tag } from 'src/modules/tag/entities/tag.entity';
 import {
   Column,
   Entity,
@@ -34,20 +34,20 @@ export class Product extends BaseEntity {
   @JoinColumn({ name: 'detail_id' })
   detail: ProductDetail;
 
-  @ManyToMany(() => Teg, {
+  @ManyToMany(() => Tag, {
     onDelete: 'SET NULL',
     onUpdate: 'NO ACTION',
   })
   @JoinTable({
-    name: 'product_tegs',
+    name: 'product_tags',
     joinColumn: {
       name: 'product_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'teg_id',
+      name: 'tag_id',
       referencedColumnName: 'id',
     },
   })
-  tegs?: Array<Teg>;
+  tags?: Array<Tag>;
 }
