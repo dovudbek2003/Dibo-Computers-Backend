@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductTagController } from './product-teg.controller';
-import { ProductTegService } from './product-teg.service';
+import { ProductTagController } from './product-tag.controller';
+import { ProductTegService } from './product-tag.service';
 
 describe('ProductTagController', () => {
   let controller: ProductTagController;
