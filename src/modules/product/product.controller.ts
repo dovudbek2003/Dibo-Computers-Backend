@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Inject,
+  Query,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { IProductService } from './interfaces/product.service';
+import { PaginationSearchDto } from './dto/pagination-product';
 
 @ApiTags('Product')
 @Controller('product')
@@ -27,8 +29,26 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of items per page',
+  })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search term',
+  })
+  findAll(@Query() paginationSearchDto: PaginationSearchDto) {
+    return this.productService.findWithPagination(paginationSearchDto);
   }
 
   @Get(':id')

@@ -24,13 +24,6 @@ export class ProductDetailRepository implements IProductDetailRepository {
     return await this.productDetailRepository.find();
   }
 
-  async findByQuery(query: string): Promise<Array<ProductDetail>> {
-    // return await this.productDetailRepository.find({ where: { model: query + '%' } });
-    return this.productDetailRepository
-      .createQueryBuilder('product_details')
-      .where('product_details.model ILIKE :letter', { letter: `${query}%` })
-      .getMany();
-  }
   async update(entity: ProductDetail): Promise<ProductDetail> {
     return await this.productDetailRepository.save(entity);
   }

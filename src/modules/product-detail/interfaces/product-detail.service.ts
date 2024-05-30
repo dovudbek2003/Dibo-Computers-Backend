@@ -6,7 +6,6 @@ import { UpdateProductDetailDto } from '../dto/update-product-detail.dto';
 export interface IProductDetailService {
   create(dto: CreateProductDetailDto): Promise<ResponseData<ProductDetail>>;
   findAll(): Promise<ResponseData<Array<ProductDetail>>>;
-  findByQuery(query: string): Promise<ResponseData<Array<ProductDetail>>>;
   update(
     id: number,
     dto: UpdateProductDetailDto,

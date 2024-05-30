@@ -23,14 +23,39 @@ export class ProductRepository implements IProductRepository {
   async findAll(): Promise<Array<Product>> {
     return await this.productRepository.find();
   }
+  async findByQuery(query: string): Promise<Array<Product>> {
+    return this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.detail', 'detail')
+      .leftJoinAndSelect('product.brend', 'brend')
+      .leftJoinAndSelect('product.tags', 'tags')
+      .where('detail.model ILIKE :query', { query: `%${query}%` })
+      .getMany();
+  }
 
-  // async findByQuery(query: string): Promise<Array<Product>> {
-  //   // return await this.productRepository.find({ where: { name: query + '%' } });
-  //   return this.productRepository
-  //     .createQueryBuilder()
-  //     .where('products.name ILIKE :letter', { letter: `${query}%` })
-  //     .getMany();
-  // }
+  async findWithPagination(
+    page: number,
+    limit: number,
+    search?: string,
+  ): Promise<[Product[], number]> {
+    const queryBuilder = this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.detail', 'detail')
+      .leftJoinAndSelect('product.brend', 'brend')
+      .leftJoinAndSelect('product.tags', 'tags');
+
+    if (search) {
+      queryBuilder.where('detail.model ILIKE :search', {
+        search: `%${search}%`,
+      });
+    }
+
+    queryBuilder.skip((page - 1) * limit).take(limit);
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+    return [data, total];
+  }
+
   async update(entity: Product): Promise<Product> {
     return await this.productRepository.save(entity);
   }

@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
   Inject,
 } from '@nestjs/common';
 import { CreateProductDetailDto } from './dto/create-product-detail.dto';
@@ -28,10 +27,7 @@ export class ProductDetailController {
   }
 
   @Get()
-  findAll(@Query('search') search: string) {
-    if (search) {
-      return this.productDetailService.findByQuery(search);
-    }
+  findAll() {
     return this.productDetailService.findAll();
   }
 

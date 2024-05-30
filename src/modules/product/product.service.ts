@@ -2,10 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IProductService } from './interfaces/product.service';
 import { IProductRepository } from './interfaces/product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
-import { ProductAlreadyExistException } from './exception/product.exception';
+import {
+  ProductAlreadyExistException,
+  ProductNotFoundException,
+} from './exception/product.exception';
 import { Product } from './entities/product.entity';
 import { ResponseData } from 'src/lib/response-data';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { PaginationSearchDto } from './dto/pagination-product';
 
 @Injectable()
 export class ProductService implements IProductService {
@@ -31,22 +35,35 @@ export class ProductService implements IProductService {
       data,
     );
   }
+
   async findAll(): Promise<ResponseData<Array<Product>>> {
     const data = await this.productRepository.findAll();
 
     return new ResponseData<Array<Product>>('ok', 200, data);
   }
 
-  // async findByQuery(query: string): Promise<ResponseData<Array<Product>>> {
-  //   // console.log(query);
-  //   // const allTasks = await this.productRepository.findByQuery(query);
-  //   const allTasks = await this.productRepository.findAll();
-  //   const data = allTasks.filter((task) => task.name.includes(query));
-  //   if (data) {
-  //     return new ResponseData<Array<Product>>('ok', 200, data);
-  //   }
-  //   return new ResponseData<Array<Product>>('ok', 200, allTasks);
-  // }
+  async findByQuery(query: string): Promise<ResponseData<Array<Product>>> {
+    const data = await this.productRepository.findByQuery(query);
+    if (!data) {
+      throw new ProductNotFoundException();
+    }
+    return new ResponseData<Array<Product>>('ok', 200, data);
+  }
+
+  async findWithPagination(
+    paginationSearchDto: PaginationSearchDto,
+  ): Promise<ResponseData<{ data: Product[]; total: number }>> {
+    const { page, limit, search } = paginationSearchDto;
+    const [data, total] = await this.productRepository.findWithPagination(
+      page,
+      limit,
+      search,
+    );
+    return new ResponseData<{ data: Product[]; total: number }>('ok', 200, {
+      data,
+      total,
+    });
+  }
 
   async findOne(id: number): Promise<ResponseData<Product>> {
     const data = await this.productRepository.findById(id);
