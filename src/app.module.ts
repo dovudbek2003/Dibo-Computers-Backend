@@ -4,7 +4,7 @@ import { UserModule } from './modules/user/user.module';
 import { ProductModule } from './modules/product/product.module';
 import { BrendModule } from './modules/brend/brend.module';
 import { TagModule } from './modules/tag/tag.module';
-import { ProductTegModule } from './modules/product-tag/product-tag.module';
+import { ProductTagModule } from './modules/product-tag/product-tag.module';
 import { ProductDetailModule } from './modules/product-detail/product-detail.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './common/config/env.config';
@@ -32,7 +32,7 @@ import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
     ProductModule,
     BrendModule,
     TagModule,
-    ProductTegModule,
+    ProductTagModule,
     ProductDetailModule,
   ],
 })
