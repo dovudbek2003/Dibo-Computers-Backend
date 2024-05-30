@@ -9,7 +9,9 @@ export interface IRegistrResponseData {
 }
 
 export interface IUserService {
-  create(createUserDto: CreateUserDto): Promise<ResponseData<IRegistrResponseData>>;
+  create(
+    createUserDto: CreateUserDto,
+  ): Promise<ResponseData<IRegistrResponseData>>;
   findAll(): Promise<ResponseData<User[]>>;
   findOne(id: number): Promise<ResponseData<User>>;
   findByLogin(login: string): Promise<User | null>;

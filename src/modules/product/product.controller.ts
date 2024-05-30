@@ -14,6 +14,11 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { IProductService } from './interfaces/product.service';
 import { PaginationSearchDto } from './dto/pagination-product';
+import { IProductDetailService } from '../product-detail/interfaces/product-detail.service';
+import {
+  BrandIdNotFoundException,
+  DetailIdNotFoundException,
+} from './exception/product.exception';
 
 @ApiTags('Product')
 @Controller('product')
@@ -21,10 +26,28 @@ export class ProductController {
   constructor(
     @Inject('IProductService')
     private readonly productService: IProductService,
+    @Inject('IProductDetailService')
+    private readonly productDetailService: IProductDetailService,
+    @Inject('IBrendService')
+    private readonly brendService: IProductDetailService,
   ) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  async create(@Body() createProductDto: CreateProductDto) {
+    const checkBrand = await this.brendService.findOne(
+      createProductDto.brendId,
+    );
+    if ((checkBrand.statusCode = 404)) {
+      throw new BrandIdNotFoundException();
+    }
+
+    const checkDetail = await this.productDetailService.findOne(
+      createProductDto.detailId,
+    );
+    if (!checkDetail) {
+      throw new DetailIdNotFoundException();
+    }
+
     return this.productService.create(createProductDto);
   }
 

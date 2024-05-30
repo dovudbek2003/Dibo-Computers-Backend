@@ -36,11 +36,12 @@ export class BrendService implements IBrendService {
   }
   async findOne(id: number): Promise<ResponseData<Brend>> {
     const brend = await this.brendRepository.findById(id);
+    const resData = new ResponseData('success', 200, brend);
     if (!brend) {
-      throw new BrendNotFound();
+      resData.message = 'not found';
+      resData.statusCode = 404;
     }
-
-    return new ResponseData<Brend>('get one', 200, brend);
+    return resData;
   }
   async _findByName(name: string): Promise<Brend> {
     return await this.brendRepository.findByName(name);

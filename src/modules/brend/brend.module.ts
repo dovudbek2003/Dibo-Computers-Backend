@@ -13,5 +13,9 @@ import { SharedModule } from '../shared/shared.module';
     { provide: 'IBrendService', useClass: BrendService },
     { provide: 'IBrendRepository', useClass: BrendRepository },
   ],
+  exports: [
+    { provide: 'IBrendService', useClass: BrendService },
+    { provide: 'IBrendRepository', useClass: BrendRepository },
+  ],
 })
 export class BrendModule {}
