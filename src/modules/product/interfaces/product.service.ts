@@ -10,7 +10,7 @@ export interface IProductService {
   findByQuery(query: string): Promise<ResponseData<Array<Product>>>;
   findWithPagination(
     paginationSearchDto: PaginationSearchDto,
-  ): Promise<ResponseData<{ data: Product[]; total: number }>>;
+  ): Promise<ResponseData<{ products: Product[]; total: number }>>;
   update(id: number, dto: UpdateProductDto): Promise<ResponseData<Product>>;
   remove(id: number): Promise<ResponseData<Product>>;
   findOne(id: number): Promise<ResponseData<Product>>;

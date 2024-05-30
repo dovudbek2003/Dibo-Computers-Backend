@@ -44,6 +44,7 @@ export class ProductService implements IProductService {
 
   async findByQuery(query: string): Promise<ResponseData<Array<Product>>> {
     const data = await this.productRepository.findByQuery(query);
+    console.log(data);
     if (!data) {
       throw new ProductNotFoundException();
     }
@@ -52,15 +53,16 @@ export class ProductService implements IProductService {
 
   async findWithPagination(
     paginationSearchDto: PaginationSearchDto,
-  ): Promise<ResponseData<{ data: Product[]; total: number }>> {
+  ): Promise<ResponseData<{ products: Product[]; total: number }>> {
     const { page, limit, search } = paginationSearchDto;
     const [data, total] = await this.productRepository.findWithPagination(
       page,
       limit,
       search,
     );
-    return new ResponseData<{ data: Product[]; total: number }>('ok', 200, {
-      data,
+
+    return new ResponseData<{ products: Product[]; total: number }>('ok', 200, {
+      products: data,
       total,
     });
   }
