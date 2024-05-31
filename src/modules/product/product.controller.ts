@@ -37,7 +37,7 @@ export class ProductController {
     const checkBrand = await this.brendService.findOne(
       createProductDto.brendId,
     );
-    if ((checkBrand.statusCode = 404)) {
+    if ((checkBrand.statusCode == 404)) {
       throw new BrandIdNotFoundException();
     }
 
