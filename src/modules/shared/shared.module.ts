@@ -9,11 +9,11 @@ import { User } from '../user/entities/user.entity';
   controllers: [],
   providers: [
     { provide: 'IUserService', useClass: UserService },
-    { provide: 'IUserRepository', useClass: UserRepository }
+    { provide: 'IUserRepository', useClass: UserRepository },
   ],
   exports: [
     { provide: 'IUserService', useClass: UserService },
-    { provide: 'IUserRepository', useClass: UserRepository }
-  ]
+    { provide: 'IUserRepository', useClass: UserRepository },
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

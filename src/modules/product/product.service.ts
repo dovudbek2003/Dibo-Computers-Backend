@@ -69,6 +69,13 @@ export class ProductService implements IProductService {
 
   async findOne(id: number): Promise<ResponseData<Product>> {
     const data = await this.productRepository.findById(id);
+<<<<<<< HEAD
+=======
+    if (!data) {
+      throw new ProductNotFoundException();
+    }
+
+>>>>>>> 42014b1c5ac925fc8e36b972865a523f40e045f2
     return new ResponseData<Product>(
       'product was founded successfully',
       200,

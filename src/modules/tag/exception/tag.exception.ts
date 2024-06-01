@@ -8,6 +8,6 @@ export class TagNotFound extends HttpException {
 
 export class TagAlreadyExist extends HttpException {
   constructor() {
-    super('Tag Already Exist', 400);
+    super('Tag already Exist', 400);
   }
 }

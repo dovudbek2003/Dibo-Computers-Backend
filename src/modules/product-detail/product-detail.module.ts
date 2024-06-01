@@ -12,5 +12,9 @@ import { ProductDetailRepository } from './product-detail.repository';
     { provide: 'IProductDetailService', useClass: ProductDetailService },
     { provide: 'IProductDetailRepository', useClass: ProductDetailRepository },
   ],
+  exports: [
+    { provide: 'IProductDetailService', useClass: ProductDetailService },
+    { provide: 'IProductDetailRepository', useClass: ProductDetailRepository },
+  ],
 })
 export class ProductDetailModule {}

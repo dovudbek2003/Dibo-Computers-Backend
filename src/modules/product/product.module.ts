@@ -4,9 +4,15 @@ import { ProductController } from './product.controller';
 import { ProductRepository } from './product.repository';
 import { Product } from './entities/product.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductDetailModule } from '../product-detail/product-detail.module';
+import { BrendModule } from '../brend/brend.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product])],
+  imports: [
+    TypeOrmModule.forFeature([Product]),
+    ProductDetailModule,
+    BrendModule,
+  ],
   controllers: [ProductController],
   providers: [
     { provide: 'IProductService', useClass: ProductService },
