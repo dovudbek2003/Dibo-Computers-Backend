@@ -14,6 +14,8 @@ import { Tag } from './modules/tag/entities/tag.entity';
 import { Product } from './modules/product/entities/product.entity';
 import { ProductDetail } from './modules/product-detail/entities/product-detail.entity';
 import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
+import { OrderModule } from './modules/order/order.module';
+import { Order } from './modules/order/entities/order.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
       username: config.dbUsername,
       password: config.dbPassword,
       database: config.dbName,
-      entities: [User, Brend, Tag, Product, ProductTag, ProductDetail],
+      entities: [User, Brend, Tag, Product, ProductTag, ProductDetail, Order],
       synchronize: true,
     }),
     AuthModule,
@@ -34,6 +36,7 @@ import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
     TagModule,
     ProductTegModule,
     ProductDetailModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

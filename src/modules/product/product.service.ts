@@ -69,7 +69,6 @@ export class ProductService implements IProductService {
 
   async findOne(id: number): Promise<ResponseData<Product>> {
     const data = await this.productRepository.findById(id);
-
     return new ResponseData<Product>(
       'product was founded successfully',
       200,
@@ -82,7 +81,9 @@ export class ProductService implements IProductService {
     updateProductDto: UpdateProductDto,
   ): Promise<ResponseData<Product>> {
     const { data: foundData } = await this.findOne(id);
+
     const updatedData = Object.assign(foundData, updateProductDto);
+    console.log('updatedData =>', updatedData);
     const data = await this.productRepository.update(updatedData);
 
     return new ResponseData<Product>(

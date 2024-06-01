@@ -27,13 +27,6 @@ export class UserController {
     @Inject('IUserService') private readonly userService: IUserService,
   ) {}
 
-  // CREATE
-  @HttpCode(HttpStatus.CREATED)
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
   // READ
   @HttpCode(HttpStatus.OK)
   @Get()

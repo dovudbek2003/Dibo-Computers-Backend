@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/lib/base-entity';
 import { Brend } from 'src/modules/brend/entities/brend.entity';
+import { Order } from 'src/modules/order/entities/order.entity';
 import { ProductDetail } from 'src/modules/product-detail/entities/product-detail.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import {
@@ -9,6 +10,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
 } from 'typeorm';
 
@@ -26,13 +28,16 @@ export class Product extends BaseEntity {
   })
   detailId: number;
 
-  @ManyToOne(() => Brend, (brend) => brend.products)
-  @JoinColumn({ name: 'brend_id' })
-  brend: Brend;
-
   @OneToOne(() => ProductDetail)
   @JoinColumn({ name: 'detail_id' })
   detail: ProductDetail;
+
+  @OneToMany(() => Order, (order) => order.product)
+  orders: Array<Order>;
+
+  @ManyToOne(() => Brend, (brend) => brend.products)
+  @JoinColumn({ name: 'brend_id' })
+  brend: Brend;
 
   @ManyToMany(() => Tag, {
     onDelete: 'SET NULL',
