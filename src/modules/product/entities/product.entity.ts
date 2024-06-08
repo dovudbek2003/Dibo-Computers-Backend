@@ -1,6 +1,10 @@
 import { BaseEntity } from 'src/lib/base-entity';
 import { Brend } from 'src/modules/brend/entities/brend.entity';
+<<<<<<< HEAD
 import { FileUpload } from 'src/modules/file-upload/entities/file-upload.entity';
+=======
+import { Order } from 'src/modules/order/entities/order.entity';
+>>>>>>> 9c71bb8f1e212cda793fa5cd8cb7d5b15341b694
 import { ProductDetail } from 'src/modules/product-detail/entities/product-detail.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import {
@@ -28,13 +32,16 @@ export class Product extends BaseEntity {
   })
   detailId: number;
 
-  @ManyToOne(() => Brend, (brend) => brend.products)
-  @JoinColumn({ name: 'brend_id' })
-  brend: Brend;
-
   @OneToOne(() => ProductDetail)
   @JoinColumn({ name: 'detail_id' })
   detail: ProductDetail;
+
+  @OneToMany(() => Order, (order) => order.product)
+  orders: Array<Order>;
+
+  @ManyToOne(() => Brend, (brend) => brend.products)
+  @JoinColumn({ name: 'brend_id' })
+  brend: Brend;
 
   @ManyToMany(() => Tag, {
     onDelete: 'SET NULL',

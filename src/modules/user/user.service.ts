@@ -37,6 +37,7 @@ export class UserService implements IUserService {
     newUser.phone = createUserDto.phone;
     newUser.login = createUserDto.login;
     newUser.password = await hashPassword(createUserDto.password);
+    newUser.role = createUserDto.role;
 
     const createdUser = await this.userRepository.create(newUser);
     const token = await this.jwtService.signAsync({ id: createdUser.id });

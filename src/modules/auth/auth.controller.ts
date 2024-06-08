@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Inject } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { CreateUserDto } from '../user/dto/create-user.dto';
+import { CreateAdminDto, CreateUserDto } from '../user/dto/create-user.dto';
 import { IUserService } from '../user/interfaces/user.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -13,14 +13,18 @@ export class AuthController {
     @Inject('IUserService') private readonly userService: IUserService,
   ) {}
 
-  @Post('register')
+  @Post('register/admin')
+  registerAdmin(@Body() createAdminDto: CreateAdminDto) {
+    return this.userService.create(createAdminDto);
+  }
+
+  @Post('register/user')
   register(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Post('login')
   login(@Body() createAuthDto: CreateAuthDto) {
-    console.log(1)
     return this.authService.login(createAuthDto);
   }
 }

@@ -14,8 +14,13 @@ import { Tag } from './modules/tag/entities/tag.entity';
 import { Product } from './modules/product/entities/product.entity';
 import { ProductDetail } from './modules/product-detail/entities/product-detail.entity';
 import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
+<<<<<<< HEAD
 import { FileUploadModule } from './modules/file-upload/file-upload.module';
 import { FileUpload } from './modules/file-upload/entities/file-upload.entity';
+=======
+import { OrderModule } from './modules/order/order.module';
+import { Order } from './modules/order/entities/order.entity';
+>>>>>>> 9c71bb8f1e212cda793fa5cd8cb7d5b15341b694
 
 @Module({
   imports: [
@@ -26,6 +31,7 @@ import { FileUpload } from './modules/file-upload/entities/file-upload.entity';
       username: config.dbUsername,
       password: config.dbPassword,
       database: config.dbName,
+<<<<<<< HEAD
       entities: [
         User,
         Brend,
@@ -35,6 +41,9 @@ import { FileUpload } from './modules/file-upload/entities/file-upload.entity';
         ProductDetail,
         FileUpload,
       ],
+=======
+      entities: [User, Brend, Tag, Product, ProductTag, ProductDetail, Order],
+>>>>>>> 9c71bb8f1e212cda793fa5cd8cb7d5b15341b694
       synchronize: true,
     }),
     AuthModule,
@@ -44,7 +53,11 @@ import { FileUpload } from './modules/file-upload/entities/file-upload.entity';
     TagModule,
     ProductTagModule,
     ProductDetailModule,
+<<<<<<< HEAD
     FileUploadModule,
+=======
+    OrderModule,
+>>>>>>> 9c71bb8f1e212cda793fa5cd8cb7d5b15341b694
   ],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Role } from 'src/common/enums/role.enum';
 import { BaseEntity } from 'src/lib/base-entity';
-import { Column, Entity } from 'typeorm';
+import { Order } from 'src/modules/order/entities/order.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -44,4 +45,7 @@ export class User extends BaseEntity {
     default: Role.USER,
   })
   role: Role;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Array<Order>;
 }
