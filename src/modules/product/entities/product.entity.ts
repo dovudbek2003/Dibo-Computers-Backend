@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/lib/base-entity';
 import { Brend } from 'src/modules/brend/entities/brend.entity';
+import { FileUpload } from 'src/modules/file-upload/entities/file-upload.entity';
 import { ProductDetail } from 'src/modules/product-detail/entities/product-detail.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import {
@@ -9,6 +10,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
 } from 'typeorm';
 
@@ -50,4 +52,7 @@ export class Product extends BaseEntity {
     },
   })
   tags?: Array<Tag>;
+
+  @OneToMany(() => FileUpload, (file) => file.id)
+  files: Array<FileUpload>;
 }

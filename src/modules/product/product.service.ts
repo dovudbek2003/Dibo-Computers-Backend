@@ -18,7 +18,7 @@ export class ProductService implements IProductService {
     private readonly productRepository: IProductRepository,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<ResponseData<Product>> {
     const checkData = await this.productRepository.findOneByDetailId(
       createProductDto.detailId,
     );
@@ -68,7 +68,10 @@ export class ProductService implements IProductService {
   }
 
   async findOne(id: number): Promise<ResponseData<Product>> {
+    
     const data = await this.productRepository.findById(id);
+    
+    
     if (!data) {
       throw new ProductNotFoundException();
     }
