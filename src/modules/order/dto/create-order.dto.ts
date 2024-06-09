@@ -7,7 +7,7 @@ export class CreateOrderDto {
   })
   @IsNotEmpty()
   @IsInt()
-  userId: number;
+  productId: number;
 
   @ApiProperty({
     type: Number,

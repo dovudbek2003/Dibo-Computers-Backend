@@ -18,5 +18,9 @@ import { BrendModule } from '../brend/brend.module';
     { provide: 'IProductService', useClass: ProductService },
     { provide: 'IProductRepository', useClass: ProductRepository },
   ],
+  exports: [
+    { provide: 'IProductService', useClass: ProductService },
+    { provide: 'IProductRepository', useClass: ProductRepository },
+  ],
 })
 export class ProductModule {}
