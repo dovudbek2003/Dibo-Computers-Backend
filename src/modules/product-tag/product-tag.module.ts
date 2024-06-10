@@ -10,9 +10,10 @@ import { Product } from '../product/entities/product.entity';
 import { TagService } from '../tag/tag.service';
 import { TagRepository } from '../tag/tag.repository';
 import { Tag } from '../tag/entities/tag.entity';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductTag, Product, Tag])],
+  imports: [TypeOrmModule.forFeature([ProductTag, Product, Tag]), SharedModule],
 
   controllers: [ProductTagController],
   providers: [

@@ -28,9 +28,9 @@ export class BrendController {
   ) {}
 
   // CREATE
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async create(@Body() createBrendDto: CreateBrendDto) {

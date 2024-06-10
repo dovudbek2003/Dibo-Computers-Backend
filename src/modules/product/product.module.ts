@@ -6,12 +6,14 @@ import { Product } from './entities/product.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductDetailModule } from '../product-detail/product-detail.module';
 import { BrendModule } from '../brend/brend.module';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Product]),
     ProductDetailModule,
     BrendModule,
+    SharedModule,
   ],
   controllers: [ProductController],
   providers: [

@@ -13,21 +13,17 @@ export class Order extends BaseEntity {
   userId: number;
 
   @Column({
-    name: 'product_id',
+    type: 'json',
+    nullable: false,
+  })
+  products: { productId: number; productCount: number }[];
+
+  @Column({
+    name: 'total_sum',
     type: 'int',
     nullable: false,
   })
-  productId: number;
-
-  @Column({
-    type: 'int',
-    default: null,
-  })
-  count: number;
-
-  @ManyToOne(() => Product, (product) => product.orders)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;
+  totalSum: number;
 
   @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn({ name: 'user_id' })

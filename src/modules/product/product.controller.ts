@@ -8,10 +8,11 @@ import {
   Delete,
   Inject,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { IProductService } from './interfaces/product.service';
 import { PaginationSearchDto } from './dto/pagination-product';
 import { IProductDetailService } from '../product-detail/interfaces/product-detail.service';
@@ -19,6 +20,10 @@ import {
   BrandIdNotFoundException,
   DetailIdNotFoundException,
 } from './exception/product.exception';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { RolesGuard } from '../shared/guards/roles.guard';
+import { Roles } from 'src/common/decorator/role.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 @ApiTags('Product')
 @Controller('product')
@@ -32,6 +37,9 @@ export class ProductController {
     private readonly brendService: IProductDetailService,
   ) {}
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
     const checkBrand = await this.brendService.findOne(
@@ -79,11 +87,17 @@ export class ProductController {
     return this.productService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);

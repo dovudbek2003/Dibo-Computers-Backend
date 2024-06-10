@@ -1,18 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, ValidateNested } from 'class-validator';
 
-export class CreateOrderDto {
+class PrdouctDto {
   @ApiProperty({
     type: Number,
+    example: 2,
   })
-  @IsNotEmpty()
   @IsInt()
   productId: number;
 
   @ApiProperty({
     type: Number,
+    example: 10,
   })
-  @IsNotEmpty()
   @IsInt()
-  count: number;
+  productCount: number;
+
+  @ApiProperty({
+    type: Number,
+    example: 1000,
+  })
+  @IsInt()
+  totalSum: number;
+}
+export class CreateOrderDto {
+  @ApiProperty({ type: [PrdouctDto] })
+  @ValidateNested({ each: true })
+  @Type(() => PrdouctDto)
+  products: PrdouctDto[];
+
+  @ApiProperty({ type: Number })
+  @IsInt()
+  totalSum: number;
 }

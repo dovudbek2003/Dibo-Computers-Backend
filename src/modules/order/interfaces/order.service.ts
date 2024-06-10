@@ -8,7 +8,7 @@ import { User } from 'src/modules/user/entities/user.entity';
 export interface IOrderService {
   create(
     createOrderDto: CreateOrderDto,
-    foundProduct: Product,
+    // foundProduct: Product,
     currentUser: User
   ): Promise<ResponseData<Order>>;
 

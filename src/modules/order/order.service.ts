@@ -21,15 +21,13 @@ export class OrderService implements IOrderService {
   // CREATE
   async create(
     createOrderDto: CreateOrderDto,
-    foundProduct: Product,
     currentUser: User,
   ): Promise<ResponseData<Order>> {
     const newOrder = new Order();
 
-    newOrder.count = createOrderDto.count;
-    newOrder.productId = createOrderDto.productId;
     newOrder.userId = currentUser.id;
-    newOrder.product = foundProduct;
+    newOrder.products = createOrderDto.products;
+    newOrder.totalSum = createOrderDto.totalSum;
     newOrder.user = currentUser;
 
     const createdOrder = await this.orderRepository.create(newOrder);

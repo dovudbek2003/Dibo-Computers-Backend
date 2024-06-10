@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/lib/base-entity';
 import { Brend } from 'src/modules/brend/entities/brend.entity';
-import { Order } from 'src/modules/order/entities/order.entity';
+import { FileUpload } from 'src/modules/file-upload/entities/file-upload.entity';
 import { ProductDetail } from 'src/modules/product-detail/entities/product-detail.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import {
@@ -32,9 +32,6 @@ export class Product extends BaseEntity {
   @JoinColumn({ name: 'detail_id' })
   detail: ProductDetail;
 
-  @OneToMany(() => Order, (order) => order.product)
-  orders: Array<Order>;
-
   @ManyToOne(() => Brend, (brend) => brend.products)
   @JoinColumn({ name: 'brend_id' })
   brend: Brend;
@@ -55,4 +52,7 @@ export class Product extends BaseEntity {
     },
   })
   tags?: Array<Tag>;
+
+  @OneToMany(() => FileUpload, (file) => file.id)
+  files: Array<FileUpload>;
 }

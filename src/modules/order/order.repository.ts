@@ -22,17 +22,24 @@ export class OrderRepository implements IOrderRepository {
       const productDetailRepository =
         queryRunner.manager.getRepository(ProductDetail);
 
-      const foundProduct = await productRepository.findOneBy({
-        id: orderEntity.productId,
-      });
+      const products = orderEntity.products;
 
-      const foundProductDetail = await productDetailRepository.findOneBy({
-        id: foundProduct.detailId,
-      });
+      for (let index = 0; index < products.length; index++) {
+        const productId = products[index].productId;
+        const productCount = products[index].productCount;
 
-      foundProductDetail.count = foundProductDetail.count - orderEntity.count;
+        const foundProduct = await productRepository.findOneBy({
+          id: productId,
+        });
 
-      await productDetailRepository.save(foundProductDetail);
+        const foundProductDetail = await productDetailRepository.findOneBy({
+          id: foundProduct.detailId,
+        });
+
+        foundProductDetail.count = foundProductDetail.count - productCount;
+
+        await productDetailRepository.save(foundProductDetail);
+      }
 
       const savedOrder = await this.orderRepository.save(orderEntity);
       await queryRunner.commitTransaction();

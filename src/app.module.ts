@@ -14,8 +14,9 @@ import { Tag } from './modules/tag/entities/tag.entity';
 import { Product } from './modules/product/entities/product.entity';
 import { ProductDetail } from './modules/product-detail/entities/product-detail.entity';
 import { ProductTag } from './modules/product-tag/entities/product-tag.entity';
-import { OrderModule } from './modules/order/order.module';
+import { FileUpload } from './modules/file-upload/entities/file-upload.entity';
 import { Order } from './modules/order/entities/order.entity';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -26,16 +27,25 @@ import { Order } from './modules/order/entities/order.entity';
       username: config.dbUsername,
       password: config.dbPassword,
       database: config.dbName,
-      entities: [User, Brend, Tag, Product, ProductTag, ProductDetail, Order],
+      entities: [
+        User,
+        Brend,
+        Tag,
+        Product,
+        ProductTag,
+        ProductDetail,
+        Order,
+        FileUpload,
+      ],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
-    ProductModule,
     BrendModule,
+    ProductDetailModule,
+    ProductModule,
     TagModule,
     ProductTagModule,
-    ProductDetailModule,
     OrderModule,
   ],
 })
