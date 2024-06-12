@@ -32,17 +32,29 @@ export class BrendService implements IBrendService {
   // READ
   async findAll(): Promise<ResponseData<Brend[]>> {
     const brends = await this.brendRepository.findAll();
-    return new ResponseData<Brend[]>('get all', 200, brends);
+    return new ResponseData<Brend[]>(
+      'brands were found successfully ',
+      200,
+      brends,
+    );
   }
+
   async findOne(id: number): Promise<ResponseData<Brend>> {
     const brend = await this.brendRepository.findById(id);
-    const resData = new ResponseData('success', 200, brend);
+
     if (!brend) {
-      resData.message = 'not found';
-      resData.statusCode = 404;
+      throw new BrendNotFound();
     }
+
+    const resData = new ResponseData(
+      'brand was found successfully',
+      200,
+      brend,
+    );
+
     return resData;
   }
+
   async _findByName(name: string): Promise<Brend> {
     return await this.brendRepository.findByName(name);
   }
@@ -53,13 +65,15 @@ export class BrendService implements IBrendService {
     updateBrendDto: UpdateBrendDto,
   ): Promise<ResponseData<Brend>> {
     const foundBrendByName = await this._findByName(updateBrendDto.name);
+
     const { data: foundBrend } = await this.findOne(id);
 
-    if (foundBrendByName && foundBrend.id !== foundBrendByName.id) {
+    if (foundBrendByName) {
       throw new BrendAlreadyExist();
     }
 
-    foundBrend.name = updateBrendDto.name;
+    Object.assign(foundBrend, updateBrendDto);
+    console.log(foundBrend);
 
     const updatedBrend = await this.brendRepository.update(foundBrend);
 
