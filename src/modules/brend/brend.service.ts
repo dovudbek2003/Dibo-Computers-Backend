@@ -73,7 +73,6 @@ export class BrendService implements IBrendService {
     }
 
     Object.assign(foundBrend, updateBrendDto);
-    console.log(foundBrend);
 
     const updatedBrend = await this.brendRepository.update(foundBrend);
 

@@ -34,7 +34,11 @@ export class ProductDetailService implements IProductDetailService {
   async findAll(): Promise<ResponseData<Array<ProductDetail>>> {
     const data = await this.productDetailRepository.findAll();
 
-    return new ResponseData<Array<ProductDetail>>('ok', 200, data);
+    return new ResponseData<Array<ProductDetail>>(
+      'product were found successfully',
+      200,
+      data,
+    );
   }
 
   async findOne(id: number): Promise<ResponseData<ProductDetail>> {
@@ -42,7 +46,11 @@ export class ProductDetailService implements IProductDetailService {
     if (!data) {
       throw new ProductDetailNotFoundException();
     }
-    const resData = new ResponseData('success', 200, data);
+    const resData = new ResponseData(
+      'product was found successfully',
+      200,
+      data,
+    );
     if (!data) {
       resData.message = 'not found';
       resData.statusCode = 404;
