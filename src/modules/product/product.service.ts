@@ -44,7 +44,7 @@ export class ProductService implements IProductService {
 
   async findByQuery(query: string): Promise<ResponseData<Array<Product>>> {
     const data = await this.productRepository.findByQuery(query);
-    console.log(data);
+   
     if (!data) {
       throw new ProductNotFoundException();
     }
@@ -88,7 +88,7 @@ export class ProductService implements IProductService {
     const { data: foundData } = await this.findOne(id);
 
     const updatedData = Object.assign(foundData, updateProductDto);
-    console.log('updatedData =>', updatedData);
+   
     const data = await this.productRepository.update(updatedData);
 
     return new ResponseData<Product>(
