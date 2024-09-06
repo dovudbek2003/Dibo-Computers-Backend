@@ -21,6 +21,7 @@ export class UserService implements IUserService {
     createUserDto: CreateUserDto,
   ): Promise<ResponseData<IRegistrResponseData>> {
     // My product commitssdsdssdsd
+
     const foundUserByLogin = await this.findByLogin(createUserDto.login);
     const foundUserByPhone = await this.findByPhone(createUserDto.phone);
 
